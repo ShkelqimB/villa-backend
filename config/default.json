@@ -1,0 +1,15 @@
+{
+    "serviceName": "capua",
+    "dbConfig": {
+        "username": "root",
+        "password": "Sb_12345",
+        "database": "villa-project",
+        "host": "localhost",
+        "dialect": "mysql",
+        "operatorsAliases": "false",
+        "port": 3306,
+        "seederStorage": "sequelize",
+        "seederStorageTableName": "SequelizeData",
+        "logging": true
+    }
+}
