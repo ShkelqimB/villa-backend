@@ -2,11 +2,10 @@ import { HttpRequest, HttpResponse } from "../../types";
 import { validateRequest, wrapAsyncError } from "../../helpers/express";
 import { constants } from "../../constants";
 import { Router } from "express";
-import { convertStringToPositiveNumber } from "../../helpers/utils";
 import { ExpenseService } from "../../services";
 
 const router = Router({ mergeParams: true });
-const { ENV, http } = constants;
+const { http } = constants;
 
 // GET all expenses
 router.get(
@@ -42,7 +41,7 @@ router.post(
         if (!createdExpense) {
             return res.sendStatus(http.badRequest);
         }
-        return res.sendStatus(http.created).send(createdExpense);
+        return res.json(createdExpense);
     })
 );
 

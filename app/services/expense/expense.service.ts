@@ -1,6 +1,6 @@
-import { db } from '../../db';
+import { db } from "../../db";
 import { randomBytes } from "crypto";
-import { Expense } from '../../db/models/expense.model';
+import { Expense } from "../../db/models/expense.model";
 
 export const ExpenseService = {
     async getAllExpenses(): Promise<Expense[]> {
@@ -20,14 +20,14 @@ export const ExpenseService = {
 
     async updateExpense(id: number, values: Expense): Promise<boolean> {
         const [updatedRow] = await db.Expense.update<Expense>(values, {
-            where: { id }
+            where: { id },
         });
 
         if (updatedRow) {
             console.log(`Expense Updated rows: ${updatedRow}`);
             return true;
         } else {
-            console.log('Expense not found');
+            console.log("Expense not found");
             return false;
         }
     },
@@ -38,26 +38,27 @@ export const ExpenseService = {
         });
 
         if (findRowBeforeDeleted) {
-            await findRowBeforeDeleted.destroy() // deletes the row
+            await findRowBeforeDeleted.destroy(); // deletes the row
             return true;
         }
         return false;
     },
 
     async createExpense(value: Expense): Promise<Expense | null> {
-        // const villa = {
-        //     id: value.id,
-        //     name: value.name,
-        //     from: value.from,
-        //     to: value.to,
-        //     price: value.price
-        // }
-        // try {
-        //     const createdVilla = await db.Expense.create<Expense>(villa)
-        //     return createdVilla;
-        // } catch (error) {
-        //     console.log(error);
-        return null;
-        // }
-    }
-}
+        const expense = {
+            name: value.name,
+            description: value.description,
+            date: value.date,
+            total: value.total,
+        };
+        try {
+            const createdVilla: Expense = (await db.Expense.create<Expense>(expense)).get({ plain: true });
+
+            console.log("🚀 ~ file: expense.service.ts:57 ~ createExpense ~ createdVilla", createdVilla);
+            return createdVilla;
+        } catch (error: any) {
+            console.log("🚀 ~ file: expense.service.ts:60 ~ createExpense ~ error", error);
+            return error.message;
+        }
+    },
+};
