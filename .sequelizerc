@@ -1,0 +1,30 @@
+const path = require("path");
+const fs = require("fs");
+const config = require("config");
+const dotenv = require("dotenv");
+
+dotenv.config();
+const { MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE, MYSQL_PORT } = process.env;
+console.log("🚀 ~ file: .sequelizerc:12 ~ MYSQL_USER", MYSQL_USER);
+console.log("🚀 ~ file: .sequelizerc:12 ~ MYSQL_PASSWORD", MYSQL_PASSWORD);
+console.log("🚀 ~ file: .sequelizerc:12 ~ MYSQL_HOST", MYSQL_HOST);
+console.log("🚀 ~ file: .sequelizerc:12 ~ MYSQL_DATABASE", MYSQL_DATABASE);
+console.log("🚀 ~ file: .sequelizerc:8 ~ MYSQL_PORT", MYSQL_PORT)
+
+const dbConfig = Object.assign({}, config.get("dbConfig"), {
+  ...(MYSQL_USER ? { username: MYSQL_USER } : {}),
+  ...(MYSQL_PASSWORD ? { password: MYSQL_PASSWORD } : {}),
+  ...(MYSQL_DATABASE ? { database: MYSQL_DATABASE } : {}),
+  ...(MYSQL_HOST ? { host: MYSQL_HOST } : {}),
+  ...(MYSQL_PORT ? { port: MYSQL_PORT } : {}),
+});
+console.log("🚀 ~ file: .sequelizerc:21 ~ dbConfig ~ dbConfig", dbConfig)
+
+fs.writeFileSync(".config.json", JSON.stringify(dbConfig));
+
+module.exports = {
+  "models-path": path.resolve("app", "db", "models"),
+  "config": path.resolve(".config.json"),
+  "migrations-path": path.resolve("app", "db", "migrations"),
+  "seeders-path": path.resolve("app", "db", "seeders"),
+};
