@@ -126,11 +126,11 @@ export const getUserIdFromRequest = async (request: HttpRequest, response: HttpR
 }
 
 export const getAccessTokenFromCookie = (request: HttpRequest): string | undefined => {
-    const { cookies: { access } } = request;
-    if (!access) {
+    const { cookies: { jwt } } = request;
+    if (!jwt) {
         return undefined;
     }
-    return access;
+    return jwt;
 }
 
 export const setCookies = (request: HttpRequest, response: HttpResponse, accessToken: string): void => {
@@ -140,8 +140,7 @@ export const setCookies = (request: HttpRequest, response: HttpResponse, accessT
 }
 
 export const clearCookies = (request: HttpRequest, response: HttpResponse): void => {
-    const domain = extractDomain(request);
-    response.clearCookie('access', { domain, path: "/" });
+    response.clearCookie('jwt', { path: "/" });
     response.header('x-vatbox-access', '');
 }
 

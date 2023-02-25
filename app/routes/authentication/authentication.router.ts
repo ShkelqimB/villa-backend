@@ -32,11 +32,7 @@ router.post(
       ), // To mS = D * Hs * min * mS
       httpOnly: true, // The browser will not access or modify the cookie
     };
-    console.log("🚀 ~ file: authentication.router.ts:35 ~ wrapAsyncError ~ loginResult.token:", loginResult.token)
-    console.log("🚀 ~ file: authentication.router.ts:36 ~ wrapAsyncError ~ COOKIE_JWT:", COOKIE_JWT)
-    console.log("🚀 ~ file: authentication.router.ts:37 ~ wrapAsyncError ~ cookieOptions:", cookieOptions)
     res.cookie('jwt', loginResult.token, { httpOnly: true, secure: false });
-    // res.cookie('token', loginResult.token)
     console.log(`User ${email} logged in successfully!`);
     return res.status(http.ok).send(loginResult.user);
   })
@@ -48,19 +44,17 @@ router.post(
   validateRequest(),
   wrapAsyncError(async (req: HttpRequest, res: HttpResponse) => {
     // const username = await getEmailFromRequest(req, res);
-    // const accessToken = getAccessTokenFromCookie(req);
-    // if (!accessToken) {
-    //   return res.sendStatus(http.badRequest);
-    // }
-    // try {
-    //   await CognitoService.logout(accessToken);
-    //   clearCookies(req, res);
-
-    //   loginAudit({ options: { message: `${username} logged out successfully!`, updatedBy: username, action: 'POST' } });
-    //   return res.status(http.noContent).send({});
-    // } catch {
-    //   return res.sendStatus(http.badRequest);
-    // }
+    const accessToken = getAccessTokenFromCookie(req);
+    if (!accessToken) {
+      return res.sendStatus(http.badRequest);
+    }
+    try {
+      clearCookies(req, res);
+      console.log(`Logged out successfully!`);
+      return res.status(http.noContent).send({});
+    } catch {
+      return res.sendStatus(http.badRequest);
+    }
   })
 );
 
