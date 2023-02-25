@@ -1,6 +1,7 @@
+import { HASH_SALT } from '../../constants';
 import { db } from '../../db/index';
-// import { randomBytes } from "crypto";
 import { User } from '../../db/models/user.model';
+import { hash } from 'bcrypt';
 
 export const UserService = {
     async getAllUsers(): Promise<User[]> {
@@ -44,13 +45,15 @@ export const UserService = {
     },
 
     async createUser(value: User): Promise<User | null> {
+        const hashedPass = await hash(value.password, HASH_SALT);
+
         const user = {
             full_name: value.full_name,
             age: value.age,
             phone: value.phone,
             email: value.email,
             role: value.role,
-            password: value.password
+            password: hashedPass
         }
         try {
             const createdUser = await db.User.create<User>(user)
@@ -61,44 +64,3 @@ export const UserService = {
         }
     }
 }
-
-// // the length of the alphabet is assumed to be less than 256
-// const createInfinitePool = (alphabet: string) => {
-//     const size = alphabet.length;
-//     const limit = (256 / size | 0) * size;
-//     const poolSize = 8192;
-
-//     // take up to a 8k of data at a time
-//     let pool = randomBytes(poolSize).toJSON().data.filter(n => n < limit);
-//     let index = 0;
-
-//     return {
-//         generate: (length: number) => {
-//             if (pool.length <= index + length) {
-//                 pool = randomBytes(poolSize).toJSON().data.filter(n => n < limit);
-//                 index = 0;
-//             }
-//             const result = pool.slice(index, index + length).map(n => alphabet[n % size]).join('');
-//             index += length;
-//             return result;
-//         }
-//     }
-// }
-
-// const makeToken = (() => {
-//     const alphabet = 'abcdefghijkmnpqrstuvwxzyABCDEFGHIJKLMNPQRSTUVWXYZ0123456789';
-//     const pool = createInfinitePool(alphabet);
-//     return () => pool.generate(40);
-// })();
-
-// const tomorrow = () => {
-//     const result = new Date();
-//     result.setDate(new Date().getDate() + 1)
-//     return result;
-// }
-
-// const nextWeek = () => {
-//     const result = new Date();
-//     result.setDate(new Date().getDate() + 7)
-//     return result;
-// }

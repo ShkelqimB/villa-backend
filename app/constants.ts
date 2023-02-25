@@ -106,3 +106,8 @@ export const CAPUA_API = 'http://capua/api/exposed/v1.0';
 
 // export const API_IMAGINARY = 'http://localhost:8001/api/v1/namespaces/backoffice-team/services/imaginary:http/proxy/api/exposed/v1.0';
 export const API_IMAGINARY = 'http://imaginary/api/exposed/v1.0';
+
+export const ID_LENGTH = 10;
+export const ID_ALPHABET = '1234567890abcdef';
+export const HASH_SALT = 12;
+export const COOKIE_JWT = 'jwt';

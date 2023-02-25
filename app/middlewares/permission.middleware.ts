@@ -1,7 +1,5 @@
-import * as capua from 'capua-service-lib';
 import { HttpRequest, HttpResponse, HttpNext } from "../types";
 import { constants } from "../constants";
-import { log } from '../helpers/logger';
 
 const { ENV, http } = constants;
 
@@ -10,19 +8,19 @@ type ContextType = "group" | "account" | "entity" | "vatbox";
 const { NODE_ENV = '~', ACCESS_TOKEN = '~' } = process.env;
 
 interface Context {
-    id:number,
+    id: number,
     type: ContextType
 }
 
-export const validatePermission = (permission: string, contextExtractor: (req:HttpRequest)=> Context = findContext) => async (req: HttpRequest, res: HttpResponse, next: HttpNext) => {
+export const validatePermission = (permission: string, contextExtractor: (req: HttpRequest) => Context = findContext) => async (req: HttpRequest, res: HttpResponse, next: HttpNext) => {
     try {
         // If we're on local then on .env.local file we should have ACCESS_TOKEN='...access...'
         if (NODE_ENV === ENV.LOCAL) {
-            req.cookies= {
+            req.cookies = {
                 access: ACCESS_TOKEN
             };
         }
-        
+
         const context = contextExtractor(req);
         const permitted = await capua.checkPermission(permission, context, req);
         if (permitted) {
@@ -32,7 +30,7 @@ export const validatePermission = (permission: string, contextExtractor: (req:Ht
             return res.sendStatus(http.forbidden);
         }
     } catch (error: any) {
-        return res.status(error.status || http.server).send({message: error.message});
+        return res.status(error.status || http.server).send({ message: error.message });
     }
 };
 

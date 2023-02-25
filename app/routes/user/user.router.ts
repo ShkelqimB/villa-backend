@@ -1,10 +1,9 @@
 import { Router } from 'express';
-
 import { HttpRequest, HttpResponse } from '../../types';
 import { validateRequest, wrapAsyncError } from '../../helpers/express';
 import { validateUserRoutes } from '../../validation/user.validator';
 import { constants } from '../../constants';
-import { omit, toBoolean, convertStringToPositiveNumber, getEmailFromRequest, getUserIdFromRequest, areArraysEqual } from '../../helpers/utils';
+import { getUserFromRequest } from '../../helpers/utils';
 import { UserService } from '../../services';
 
 const router = Router({ mergeParams: true });
@@ -19,6 +18,17 @@ router.get(
     wrapAsyncError(async (req: HttpRequest, res: HttpResponse) => {
         const allUsers = await UserService.getAllUsers();
         return res.status(http.ok).send(allUsers);
+    })
+);
+
+// Get user by Token
+router.get(
+    '/me',
+    validateUserRoutes('get-users'),
+    validateRequest(),
+    wrapAsyncError(async (req: HttpRequest, res: HttpResponse) => {
+        const user = await getUserFromRequest(req, res);
+        return res.status(http.ok).send(user);
     })
 );
 

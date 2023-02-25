@@ -1,6 +1,8 @@
 import { Hash, HttpRequest, HttpResponse } from "../types";
 import { Base64 } from 'js-base64';
 import { constants } from "../constants";
+import { UserService } from "../services";
+import { User } from "../db/models/user.model";
 // Local
 // const DOMAIN = 'localhost';
 // Production
@@ -69,8 +71,8 @@ export const decodeBase64 = <T = any>(source: string): { isJson: true, result: T
     }
 };
 
-export const getEmailFromRequest = async (request: HttpRequest, response: HttpResponse): Promise<string | null> => {
-    const accessToken: string = request.cookies.access || request.headers['x-vatbox-access'];
+export const getUserFromRequest = async (request: HttpRequest, response: HttpResponse): Promise<User> => {
+    const accessToken: string = request.cookies.jwt || request.cookies.access;
 
     if (!accessToken) {
         throw {
@@ -79,22 +81,20 @@ export const getEmailFromRequest = async (request: HttpRequest, response: HttpRe
         }
     }
 
-    // const userProfile = await getUserProfile(accessToken);
+    const parts = accessToken.split('.');
 
-    // if (!userProfile.success) {
-    //     throw {
-    //         status: constants.http.unauthorized,
-    //         message: 'Failed token validation'
-    //     }
-    // }
+    const decoded = decodeBase64(parts[1]);
 
-    // // do we need to update cookies
-    // if (userProfile.accessTokenRefresh) {
-    //     setCookies(request, response, userProfile.accessToken);
-    // }
+    const userProfile = await UserService.getUserById(decoded.result.id);
 
-    // return userProfile.email;
-    return null
+    if (!userProfile) {
+        throw {
+            status: constants.http.unauthorized,
+            message: 'No user with this ID'
+        }
+    }
+
+    return userProfile;
 }
 
 export const getUserIdFromRequest = async (request: HttpRequest, response: HttpResponse): Promise<string | null> => {
