@@ -32,7 +32,7 @@ router.post(
       ), // To mS = D * Hs * min * mS
       httpOnly: true, // The browser will not access or modify the cookie
     };
-    res.cookie('jwt', loginResult.token, { httpOnly: true, secure: false });
+    res.cookie('jwt', loginResult.token, { httpOnly: false, secure: false });
     console.log(`User ${email} logged in successfully!`);
     return res.status(http.ok).send(loginResult.user);
   })
@@ -40,11 +40,13 @@ router.post(
 
 router.post(
   '/logout',
-  validateAuthRoutes('logout'),
+  // validateAuthRoutes('logout'),
   validateRequest(),
   wrapAsyncError(async (req: HttpRequest, res: HttpResponse) => {
-    // const username = await getEmailFromRequest(req, res);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header("Access-Control-Allow-Headers", "*");
     const accessToken = getAccessTokenFromCookie(req);
+    console.log("🚀 ~ file: authentication.router.ts:48 ~ wrapAsyncError ~ accessToken:", accessToken)
     if (!accessToken) {
       return res.sendStatus(http.badRequest);
     }

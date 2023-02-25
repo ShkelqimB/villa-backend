@@ -140,8 +140,7 @@ export const setCookies = (request: HttpRequest, response: HttpResponse, accessT
 }
 
 export const clearCookies = (request: HttpRequest, response: HttpResponse): void => {
-    response.clearCookie('jwt', { path: "/" });
-    response.header('x-vatbox-access', '');
+    response.clearCookie('jwt');
 }
 
 export const calculatePagination = (page: number, pageSize: number) => {
