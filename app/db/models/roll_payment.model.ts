@@ -17,8 +17,8 @@ export interface Roll_Payment extends Model {
     createdAt: Date;
     updatedAt: Date;
 
-    readonly client: Client[];
-    readonly villa: Villa[];
+    readonly client: Client;
+    readonly villa: Villa;
 }
 
 export default (sequelize: Sequelize) => {

@@ -50,7 +50,8 @@ router.post(
     wrapAsyncError(async (req: HttpRequest, res: HttpResponse) => {
         const body: RollPaymentInput = req.body;
         const createdRollPayment = await RollPaymentService.createRollPayment(body);
-        if (!createdRollPayment) {
+        console.log("🚀 ~ file: roll_payment.router.ts:53 ~ wrapAsyncError ~ createdRollPayment:", createdRollPayment)
+        if (!createdRollPayment && createdRollPayment === undefined && createdRollPayment === null) {
             return res.sendStatus(http.badRequest);
         }
         return res.json(createdRollPayment);

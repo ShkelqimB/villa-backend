@@ -8,7 +8,7 @@ export const RollPaymentService = {
         const rollPayments = await db.Roll_Payment.findAll<Roll_Payment>({
             include: [{
                 model: db.Client,
-                attributes: ['id', 'full_name', 'email'],
+                attributes: ['id', 'full_name', 'email', 'phone', 'guests'],
                 as: 'client'
             }, {
                 model: db.Villa,
@@ -23,7 +23,7 @@ export const RollPaymentService = {
         const roll_Payment = await db.Roll_Payment.findOne<Roll_Payment>({
             where: { id }, include: [{
                 model: db.Client,
-                attributes: ['id', 'full_name', 'email'],
+                attributes: ['id', 'full_name', 'email', 'phone', 'guests'],
                 as: 'client'
             }, {
                 model: db.Villa,
@@ -45,7 +45,7 @@ export const RollPaymentService = {
         const Roll_Payment = await db.Roll_Payment.findOne<Roll_Payment>({
             where: { email }, include: [{
                 model: db.Client,
-                attributes: ['id', 'full_name', 'email'],
+                attributes: ['id', 'full_name', 'email', 'phone', 'guests'],
                 as: 'client'
             }, {
                 model: db.Villa,
@@ -57,15 +57,36 @@ export const RollPaymentService = {
     },
 
     async updateRollPayment(id: number, values: Roll_Payment): Promise<boolean> {
-        const [updatedRow] = await db.Roll_Payment.update<Roll_Payment>(values, {
-            where: { id },
-        });
-
-        if (updatedRow) {
-            console.log(`Roll_Payment Updated rows: ${updatedRow}`);
+        const { client, villa, amount, checkin, checkout, guests, no_prepayment, deposit, full_prepayment } = values;
+        const Client = {
+            full_name: client.full_name,
+            email: client.email,
+            phone: client.phone,
+            guests: client.guests
+        };
+        let transaction;
+        try {
+            transaction = await db.sequelize.transaction();
+            // 1. Update Client
+            await db.Client.update<Client>(Client, {
+                where: { id: client.id }, transaction
+            },);
+            const fullObj = {
+                client_id: client?.id,
+                villa_id: villa?.id,
+                amount, checkin, checkout, guests, no_prepayment, deposit, full_prepayment,
+            }
+            // 2. Update Roll_Payment
+            await db.Roll_Payment.update<Roll_Payment>(fullObj, { where: { id }, transaction });
+            // 3. Transaction commit
+            await transaction.commit();
+            console.log('Successfully updated existed roll_payment');
             return true;
-        } else {
-            console.log("Roll_Payment not found");
+        } catch (error) {
+            console.log(error);
+            if (transaction) {
+                await transaction.rollback();
+            }
             return false;
         }
     },
@@ -82,8 +103,7 @@ export const RollPaymentService = {
         return false;
     },
 
-    async createRollPayment(values: RollPaymentInput): Promise<Roll_Payment | undefined> {
-        console.log("🚀 ~ file: roll_payment.service.ts:61 ~ createRollPayment ~ values:", values)
+    async createRollPayment(values: RollPaymentInput): Promise<Roll_Payment | null | undefined> {
         const { client, villa, amount, checkin, checkout, guests, no_prepayment, deposit, full_prepayment } = values;
         const Client = {
             full_name: client.full_name,
@@ -95,20 +115,24 @@ export const RollPaymentService = {
         try {
             transaction = await db.sequelize.transaction();
             // 1. Create Client
-            // const createdClient = await (await db.Client.create<Client>(Client, { transaction })).get({ plain: true });
             const createdClient = await db.Client.create<Client>(Client, { transaction });
             const fullObj = {
                 client_id: createdClient.id,
                 villa_id: villa.id,
                 amount, checkin, checkout, guests, no_prepayment, deposit, full_prepayment,
             }
-            console.log("🚀 ~ file: roll_payment.service.ts:74 ~ createRollPayment ~ fullObj:", fullObj)
             // 2. Create Roll_Payment
             const createdRollPayment = await db.Roll_Payment.create<Roll_Payment>(fullObj, { transaction });
             // 3. Transaction commit
             await transaction.commit();
             console.log('Successfully created new roll_payment');
-            return createdRollPayment;
+            return {
+                ...createdRollPayment.dataValues,
+                client: {
+                    ...createdClient.dataValues,
+                },
+                villa: { ...villa }
+            };
         } catch (error) {
             console.log(error);
             if (transaction) {
