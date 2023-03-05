@@ -58,7 +58,7 @@ router.post(
         if (!createdUser) {
             return res.sendStatus(http.badRequest)
         }
-        return res.sendStatus(http.created).send(createdUser);
+        return res.json(createdUser);
     })
 );
 
