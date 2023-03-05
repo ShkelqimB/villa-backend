@@ -8,6 +8,13 @@ export const ExpenseService = {
         return expenses;
     },
 
+    async getTotal(): Promise<any> {
+        const expenses = await db.Expense.findOne({
+            attributes: [[db.sequelize.fn('sum', db.sequelize.col('total')), 'total']]
+        });
+        return expenses;
+    },
+
     async getExpenseById(id: number): Promise<Expense | null> {
         const expense = await db.Expense.findOne<Expense>({ where: { id } });
         return expense;

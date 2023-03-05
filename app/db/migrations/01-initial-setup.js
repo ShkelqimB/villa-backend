@@ -45,7 +45,7 @@ module.exports = {
     await queryInterface.sequelize.query(`
       CREATE TABLE IF NOT EXISTS villas(
       id     int(11) auto_increment primary key,
-      name   varchar(255) not null,
+      name   varchar(255)     not null,
       price  int(11)          not null,
       guests int(11)          not null,
 
@@ -59,8 +59,8 @@ module.exports = {
       id        int(11) auto_increment primary key,
       amount    int(11)      null,
       guests    int(11)      null,
-      checkin   datetime null,
-      checkout  datetime null,
+      checkin   datetime     null,
+      checkout  datetime     null,
       client_id int(11)      null,
       villa_id  int(11)      null,
 

@@ -18,6 +18,17 @@ router.get(
     })
 );
 
+// GET total expenses
+router.get(
+    "/total",
+    // validateVillaRoutes('get-all-providers'),
+    validateRequest(),
+    wrapAsyncError(async (req: HttpRequest, res: HttpResponse) => {
+        const expenses = await ExpenseService.getTotal();
+        return res.status(http.ok).send(expenses);
+    })
+);
+
 // GET specific expense by ID
 router.get(
     "/:id",

@@ -6,8 +6,8 @@ import { Villa } from './villa.model';
 
 export interface Roll_Payment extends Model {
     id: number;
-    amount: string;
-    guests: Date;
+    amount: number;
+    guests: number;
     checkin: string;
     checkout: string;
 
@@ -21,11 +21,12 @@ export interface Roll_Payment extends Model {
 export default (sequelize: Sequelize) => {
     const Roll_Payment = <DbModel<Roll_Payment>>sequelize.define('Roll_Payment', {
         id: Type.primaryKey(),
-        full_name: Type.str(255, false),
         amount: Type.int,
-        guests: Type.DATE,
+        guests: Type.int,
         checkin: Type.DATE,
-        checkout: Type.DATE
+        checkout: Type.DATE,
+        client_id: Type.refId(),
+        villa_id: Type.refId(),
     },
         {
             timestamps: true,
@@ -33,11 +34,13 @@ export default (sequelize: Sequelize) => {
             tableName: 'roll_payments',
             indexes: [{
                 unique: true,
-                fields: ['name']
+                fields: ['id']
             }]
         });
 
     Roll_Payment.associate = (db: Database) => {
+        db.Roll_Payment.belongsTo(db.Client, { targetKey: 'id', foreignKey: 'client_id', as: 'client' })
+        db.Roll_Payment.belongsTo(db.Villa, { targetKey: 'id', foreignKey: 'villa_id', as: 'villa' })
         // db.Roll_Payment.belongsToMany(db.RoleTemplate,
         //     { through: 'role_template_applications', foreignKey: 'applicationId', as: 'roleTemplates' });
 
