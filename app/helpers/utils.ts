@@ -155,8 +155,8 @@ export const toBoolean = (input: string) => {
     return trues.includes(input);
 }
 
-export const convertStringToPositiveNumber = (query: string, defaultNum = 0) => {
-    return query && !!+query ? Math.abs(+query) : defaultNum;
+export const convertStringToPositiveNumber = (query: string) => {
+    return query && !!+query ? Math.abs(+query) : undefined;
 }
 
 function extractDomain(request: HttpRequest) {

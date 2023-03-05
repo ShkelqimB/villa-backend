@@ -7,6 +7,7 @@ export interface Client extends Model {
     full_name: string;
     email: string;
     phone: string;
+    guests: number;
 
     createdAt: Date;
     updatedAt: Date;
@@ -18,6 +19,7 @@ export default (sequelize: Sequelize) => {
         full_name: Type.str(255, false),
         phone: Type.str(255, false),
         email: Type.str(255, false),
+        guests: Type.int
     },
         {
             timestamps: true,

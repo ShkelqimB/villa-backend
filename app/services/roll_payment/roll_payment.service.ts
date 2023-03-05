@@ -84,11 +84,12 @@ export const RollPaymentService = {
 
     async createRollPayment(values: RollPaymentInput): Promise<Roll_Payment | undefined> {
         console.log("🚀 ~ file: roll_payment.service.ts:61 ~ createRollPayment ~ values:", values)
-        const { client, villa, amount, checkin, checkout, guests } = values;
+        const { client, villa, amount, checkin, checkout, guests, no_prepayment, deposit, full_prepayment } = values;
         const Client = {
             full_name: client.full_name,
             email: client.email,
-            phone: client.phone
+            phone: client.phone,
+            guests: client.guests
         };
         let transaction;
         try {
@@ -97,9 +98,9 @@ export const RollPaymentService = {
             // const createdClient = await (await db.Client.create<Client>(Client, { transaction })).get({ plain: true });
             const createdClient = await db.Client.create<Client>(Client, { transaction });
             const fullObj = {
-                amount, checkin, checkout, guests,
                 client_id: createdClient.id,
-                villa_id: villa.id
+                villa_id: villa.id,
+                amount, checkin, checkout, guests, no_prepayment, deposit, full_prepayment,
             }
             console.log("🚀 ~ file: roll_payment.service.ts:74 ~ createRollPayment ~ fullObj:", fullObj)
             // 2. Create Roll_Payment

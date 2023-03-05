@@ -10,6 +10,9 @@ export interface Roll_Payment extends Model {
     guests: number;
     checkin: string;
     checkout: string;
+    no_prepayment: boolean;
+    deposit: boolean;
+    full_prepayment: boolean;
 
     createdAt: Date;
     updatedAt: Date;
@@ -25,6 +28,9 @@ export default (sequelize: Sequelize) => {
         guests: Type.int,
         checkin: Type.DATE,
         checkout: Type.DATE,
+        no_prepayment: Type.bool(),
+        deposit: Type.bool(),
+        full_prepayment: Type.bool(),
         client_id: Type.refId(),
         villa_id: Type.refId(),
     },

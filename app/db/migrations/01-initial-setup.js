@@ -8,6 +8,7 @@ module.exports = {
         full_name varchar(255) not null,
         email     varchar(255) not null,
         phone     varchar(255) not null,
+        guests    int(11)      not null,
 
         created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -56,13 +57,16 @@ module.exports = {
 
     await queryInterface.sequelize.query(`
       CREATE TABLE IF NOT EXISTS roll_payments(
-      id        int(11) auto_increment primary key,
-      amount    int(11)      null,
-      guests    int(11)      null,
-      checkin   datetime     null,
-      checkout  datetime     null,
-      client_id int(11)      null,
-      villa_id  int(11)      null,
+      id                int(11) auto_increment primary key,
+      amount            int(11)      not null,
+      guests            int(11)      not null,
+      checkin           datetime     not null,
+      checkout          datetime     not null,
+      no_prepayment     BIT(1)      not null,
+      deposit           BIT(1)      not null,
+      full_prepayment   BIT(1)      not null,
+      client_id         int(11)      null,
+      villa_id          int(11)      null,
 
       created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
