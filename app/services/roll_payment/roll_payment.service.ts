@@ -3,8 +3,6 @@ import { Client } from "../../db/models/client.model";
 import { Roll_Payment } from "../../db/models/roll_payment.model";
 import { RollPaymentInput } from "../../presenters/inputs/rollPayment.input";
 
-// ALERT: Duhet me bo kur ti marmi krejt RollPayments mi marren edhe client edhe villas si objekt
-
 export const RollPaymentService = {
     async getAllRollPayment(): Promise<Roll_Payment[]> {
         const rollPayments = await db.Roll_Payment.findAll<Roll_Payment>({
