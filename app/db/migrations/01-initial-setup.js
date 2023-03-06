@@ -59,7 +59,6 @@ module.exports = {
       CREATE TABLE IF NOT EXISTS roll_payments(
       id                int(11) auto_increment primary key,
       amount            int(11)      not null,
-      guests            int(11)      not null,
       checkin           datetime     not null,
       checkout          datetime     not null,
       no_prepayment     BIT(1)      not null,

@@ -1,5 +1,6 @@
 import express from 'express';
 import { AuthenticationRouter } from './authentication/authentication.router';
+import { ClientRouter } from './client/client.router';
 import { ExpenseRouter } from './expense/expense.router';
 import { RollPaymentRouter } from './roll_payment/roll_payment.router';
 import { UserRouter } from './user/user.router';
@@ -9,6 +10,7 @@ const BASE_ROUTE = '/api';
 const router = express.Router();
 
 router.use(`${BASE_ROUTE}/authentication`, AuthenticationRouter);
+router.use(`${BASE_ROUTE}/client`, ClientRouter);
 router.use(`${BASE_ROUTE}/user`, UserRouter);
 router.use(`${BASE_ROUTE}/villa`, VillaRouter);
 router.use(`${BASE_ROUTE}/expense`, ExpenseRouter);

@@ -57,7 +57,7 @@ export const RollPaymentService = {
     },
 
     async updateRollPayment(id: number, values: Roll_Payment): Promise<boolean> {
-        const { client, villa, amount, checkin, checkout, guests, no_prepayment, deposit, full_prepayment } = values;
+        const { client, villa, amount, checkin, checkout, no_prepayment, deposit, full_prepayment } = values;
         const Client = {
             full_name: client.full_name,
             email: client.email,
@@ -74,7 +74,7 @@ export const RollPaymentService = {
             const fullObj = {
                 client_id: client?.id,
                 villa_id: villa?.id,
-                amount, checkin, checkout, guests, no_prepayment, deposit, full_prepayment,
+                amount, checkin, checkout, no_prepayment, deposit, full_prepayment,
             }
             // 2. Update Roll_Payment
             await db.Roll_Payment.update<Roll_Payment>(fullObj, { where: { id }, transaction });
@@ -104,7 +104,7 @@ export const RollPaymentService = {
     },
 
     async createRollPayment(values: RollPaymentInput): Promise<Roll_Payment | null | undefined> {
-        const { client, villa, amount, checkin, checkout, guests, no_prepayment, deposit, full_prepayment } = values;
+        const { client, villa, amount, checkin, checkout, no_prepayment, deposit, full_prepayment } = values;
         const Client = {
             full_name: client.full_name,
             email: client.email,
@@ -119,7 +119,7 @@ export const RollPaymentService = {
             const fullObj = {
                 client_id: createdClient.id,
                 villa_id: villa.id,
-                amount, checkin, checkout, guests, no_prepayment, deposit, full_prepayment,
+                amount, checkin, checkout, no_prepayment, deposit, full_prepayment,
             }
             // 2. Create Roll_Payment
             const createdRollPayment = await db.Roll_Payment.create<Roll_Payment>(fullObj, { transaction });

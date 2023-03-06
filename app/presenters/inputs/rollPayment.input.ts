@@ -3,7 +3,6 @@ import { Villa } from "../../db/models/villa.model";
 
 export interface RollPaymentInput {
     amount: number;
-    guests: number;
     checkin: string;
     checkout: string;
     no_prepayment: boolean;
@@ -16,7 +15,6 @@ export interface RollPaymentInput {
 
 export interface Roll_Payment_Input {
     amount: number;
-    guests: number;
     checkin: string;
     checkout: string;
     no_prepayment: boolean;

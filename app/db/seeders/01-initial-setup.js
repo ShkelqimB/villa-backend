@@ -25,9 +25,9 @@ module.exports = {
         ]);
 
         await queryInterface.bulkInsert('roll_payments', [
-            { amount: 300, guests: 5, checkin: "12.12.2022", checkout: "12.12.2022", no_prepayment: false, deposit: true, full_prepayment: false, client_id: 4, villa_id: 7 },
-            { amount: 400, guests: 6, checkin: "15.12.2022", checkout: "20.12.2022", no_prepayment: true, deposit: false, full_prepayment: false, client_id: 5, villa_id: 8 },
-            { amount: 300, guests: 6, checkin: "15.12.2022", checkout: "20.12.2022", no_prepayment: false, deposit: false, full_prepayment: true, client_id: 6, villa_id: 8 },
+            { amount: 300, checkin: "12.12.2022", checkout: "12.12.2022", no_prepayment: false, deposit: true, full_prepayment: false, client_id: 4, villa_id: 7 },
+            { amount: 400, checkin: "15.12.2022", checkout: "20.12.2022", no_prepayment: true, deposit: false, full_prepayment: false, client_id: 5, villa_id: 8 },
+            { amount: 300, checkin: "15.12.2022", checkout: "20.12.2022", no_prepayment: false, deposit: false, full_prepayment: true, client_id: 6, villa_id: 8 },
         ]);
     },
 

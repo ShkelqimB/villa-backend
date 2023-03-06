@@ -7,7 +7,6 @@ import { Villa } from './villa.model';
 export interface Roll_Payment extends Model {
     id: number;
     amount: number;
-    guests: number;
     checkin: string;
     checkout: string;
     no_prepayment: boolean;
@@ -25,7 +24,6 @@ export default (sequelize: Sequelize) => {
     const Roll_Payment = <DbModel<Roll_Payment>>sequelize.define('Roll_Payment', {
         id: Type.primaryKey(),
         amount: Type.int,
-        guests: Type.int,
         checkin: Type.DATE,
         checkout: Type.DATE,
         no_prepayment: Type.bool(),
