@@ -13,7 +13,8 @@ router.get(
     // validateVillaRoutes('get-all-providers'),
     validateRequest(),
     wrapAsyncError(async (req: HttpRequest, res: HttpResponse) => {
-        const expenses = await ExpenseService.getAllExpenses();
+        const { limit } = req.query;
+        const expenses = await ExpenseService.getAllExpenses(limit);
         return res.status(http.ok).send(expenses);
     })
 );

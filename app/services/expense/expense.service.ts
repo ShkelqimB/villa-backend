@@ -1,10 +1,11 @@
 import { db } from "../../db";
-import { randomBytes } from "crypto";
 import { Expense } from "../../db/models/expense.model";
+import { convertStringToPositiveNumber } from "../../helpers/utils";
 
 export const ExpenseService = {
-    async getAllExpenses(): Promise<Expense[]> {
-        const expenses = await db.Expense.findAll<Expense>();
+    async getAllExpenses(limit: any): Promise<Expense[]> {
+        const toNumber = convertStringToPositiveNumber(limit);
+        const expenses = await db.Expense.findAll<Expense>({ limit: toNumber });
         return expenses;
     },
 

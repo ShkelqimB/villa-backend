@@ -1,10 +1,12 @@
 import { db } from "../../db";
 import { randomBytes } from "crypto";
 import { Villa } from "../../db/models/villa.model";
+import { convertStringToPositiveNumber } from "../../helpers/utils";
 
 export const VillaService = {
-    async getAllVillas(): Promise<Villa[]> {
-        const villas = await db.Villa.findAll<Villa>();
+    async getAllVillas(limit: any): Promise<Villa[]> {
+        const toNumber = convertStringToPositiveNumber(limit);
+        const villas = await db.Villa.findAll<Villa>({ limit: toNumber });
         return villas;
     },
 

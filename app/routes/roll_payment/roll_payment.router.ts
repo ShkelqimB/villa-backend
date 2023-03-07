@@ -14,7 +14,8 @@ router.get(
     // validateRollPaymentRoutes('get-all-providers'),
     validateRequest(),
     wrapAsyncError(async (req: HttpRequest, res: HttpResponse) => {
-        const allRollPayments = await RollPaymentService.getAllRollPayment();
+        const { limit } = req.query;
+        const allRollPayments = await RollPaymentService.getAllRollPayment(limit);
         return res.status(http.ok).send(allRollPayments);
     })
 );

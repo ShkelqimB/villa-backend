@@ -3,6 +3,7 @@ import { validateRequest, wrapAsyncError } from "../../helpers/express";
 import { constants } from "../../constants";
 import { Router } from "express";
 import { VillaService } from "../../services";
+import { convertStringToPositiveNumber } from "../../helpers/utils";
 
 const router = Router({ mergeParams: true });
 const { ENV, http } = constants;
@@ -13,7 +14,8 @@ router.get(
     // validateVillaRoutes('get-all-providers'),
     validateRequest(),
     wrapAsyncError(async (req: HttpRequest, res: HttpResponse) => {
-        const allVillas = await VillaService.getAllVillas();
+        const { limit } = req.query;
+        const allVillas = await VillaService.getAllVillas(limit);
         return res.status(http.ok).send(allVillas);
     })
 );

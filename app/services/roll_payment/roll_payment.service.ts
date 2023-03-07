@@ -1,10 +1,12 @@
 import { db } from "../../db";
 import { Client } from "../../db/models/client.model";
 import { Roll_Payment } from "../../db/models/roll_payment.model";
+import { convertStringToPositiveNumber } from "../../helpers/utils";
 import { RollPaymentInput } from "../../presenters/inputs/rollPayment.input";
 
 export const RollPaymentService = {
-    async getAllRollPayment(): Promise<Roll_Payment[]> {
+    async getAllRollPayment(limit: any): Promise<Roll_Payment[]> {
+        const toNumber = convertStringToPositiveNumber(limit);
         const rollPayments = await db.Roll_Payment.findAll<Roll_Payment>({
             include: [{
                 model: db.Client,
@@ -15,6 +17,7 @@ export const RollPaymentService = {
                 attributes: ['id', 'name', 'price', 'guests'],
                 as: 'villa'
             }],
+            limit: toNumber,
         });
         return rollPayments;
     },
