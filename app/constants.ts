@@ -64,49 +64,6 @@ export const ENV = Object.freeze({
   PROD: 'production',
 });
 
-export const REQUEST_HEADERS = Object.freeze({
-  'Content-Type': 'application/json',
-  'vatbox-service-name': 'cockpit-backend',
-});
-
-export const FREQUENCIES = Object.freeze({
-  IMMEDIATE: 'immediate',
-  DAILY: 'daily',
-  WEEKLY: 'weekly',
-  MONTHLY: 'monthly',
-});
-
-export const CHANNELS = Object.freeze({
-  EMAIL: 'email',
-});
-
-export const MANDATORY_CSV_COLUMN_NAMES = Object.freeze({
-  EXPENSE_MAPPINGS: ['customerValue', 'systemValue', 'thirdPartyAttendee'],
-  ENTITY_MAPPINGS: ['entityId', 'entityName', 'externalId'],
-});
-
-const API_GHOST_RIDER = `http://ghost-rider/api/exposed/v1.0`;
-// export const API_GHOST_RIDER = `http://localhost:8001/api/v1/namespaces/backoffice-team/services/ghost-rider:http/proxy/api/exposed/v1.0`;
-
-export const API_GHOST = `http://ghost/api/exposed/v1.0`;
-// export const API_GHOST = `http://localhost:8001/api/v1/namespaces/backoffice-team/services/ghost:http/proxy/api/exposed/v1.0`;
-
-export const BASE_API = API_GHOST_RIDER;
-
-export const API_INDIGESTION = 'http://indigestion/api/exposed/v1.0';
-// export const API_INDIGESTION = 'http://localhost:3001/api/exposed/v1.0';
-// export const API_INDIGESTION = `http://localhost:8001/api/v1/namespaces/backoffice-team/services/indigestion:http/proxy/api/exposed/v1.0`;
-
-export const ACCOUNT_SETUP_API = 'http://account-setup/api/exposed/v2';
-// export const ACCOUNT_SETUP_API = `http://localhost:8001/api/v1/namespaces/backoffice-team/services/account-setup:http/proxy/api/exposed/v2`;
-
-export const CAPUA_API = 'http://capua/api/exposed/v1.0';
-// export const CAPUA_API = `http://localhost:8001/api/v1/namespaces/backoffice-team/services/capua:http/proxy/api/exposed/v1.0`;
-// export const CAPUA_API = 'http://localhost:3000/api/exposed/v1.0';
-
-// export const API_IMAGINARY = 'http://localhost:8001/api/v1/namespaces/backoffice-team/services/imaginary:http/proxy/api/exposed/v1.0';
-export const API_IMAGINARY = 'http://imaginary/api/exposed/v1.0';
-
 export const ID_LENGTH = 10;
 export const ID_ALPHABET = '1234567890abcdef';
 export const HASH_SALT = 12;

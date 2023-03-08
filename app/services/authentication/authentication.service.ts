@@ -1,5 +1,4 @@
 import { db } from '../../db';
-import { randomBytes } from "crypto";
 import { User } from '../../db/models/user.model';
 import { correctPassword, signToken } from '../../helpers/jwt';
 

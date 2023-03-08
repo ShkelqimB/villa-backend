@@ -3,7 +3,6 @@ import { validateRequest, wrapAsyncError } from "../../helpers/express";
 import { constants } from "../../constants";
 import { Router } from "express";
 import { VillaService } from "../../services";
-import { convertStringToPositiveNumber } from "../../helpers/utils";
 
 const router = Router({ mergeParams: true });
 const { ENV, http } = constants;

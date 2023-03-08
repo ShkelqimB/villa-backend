@@ -3,7 +3,7 @@ import { HttpRequest, HttpResponse } from '../../types';
 import { validateRequest, wrapAsyncError } from '../../helpers/express';
 import { validateAuthRoutes } from '../../validation/auth.validator';
 import { constants, COOKIE_JWT } from '../../constants';
-import { getAccessTokenFromCookie, setCookies, clearCookies, omit, extract } from '../../helpers/utils';
+import { getAccessTokenFromCookie, clearCookies } from '../../helpers/utils';
 import { AuthenticationService } from '../../services';
 
 const router = Router({ mergeParams: true });

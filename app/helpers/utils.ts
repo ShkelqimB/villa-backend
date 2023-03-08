@@ -97,34 +97,6 @@ export const getUserFromRequest = async (request: HttpRequest, response: HttpRes
     return userProfile;
 }
 
-export const getUserIdFromRequest = async (request: HttpRequest, response: HttpResponse): Promise<string | null> => {
-    const accessToken: string = request.cookies.access || request.headers['x-vatbox-access'];
-
-    if (!accessToken) {
-        throw {
-            status: constants.http.unauthorized,
-            message: 'Failed token validation'
-        }
-    }
-
-    // const verification = await verifyAccessToken(accessToken);
-
-    // if (!verification.success) {
-    //     throw {
-    //         status: constants.http.unauthorized,
-    //         message: 'Failed token validation'
-    //     }
-    // }
-
-    // // do we need to update cookies
-    // if (verification.accessTokenRefresh) {
-    //     setCookies(request, response, verification.accessToken);
-    // }
-
-    // return verification.username;
-    return null;
-}
-
 export const getAccessTokenFromCookie = (request: HttpRequest): string | undefined => {
     const { cookies: { jwt } } = request;
     if (!jwt) {
@@ -134,21 +106,13 @@ export const getAccessTokenFromCookie = (request: HttpRequest): string | undefin
 }
 
 export const setCookies = (request: HttpRequest, response: HttpResponse, accessToken: string): void => {
-    const domain = extractDomain(request);
-    response.cookie('access', accessToken, { domain, path: "/", secure: true, httpOnly: true, sameSite: true });
+    response.cookie('access', accessToken, { path: "/", secure: true, httpOnly: true, sameSite: true });
     response.header('x-vatbox-access', accessToken);
 }
 
 export const clearCookies = (request: HttpRequest, response: HttpResponse): void => {
     response.clearCookie('jwt');
 }
-
-export const calculatePagination = (page: number, pageSize: number) => {
-    const start = page * pageSize;
-    // end is exclusive
-    const end = start + pageSize;
-    return { start, end };
-};
 
 export const toBoolean = (input: string) => {
     const trues = ['true', '1'];
@@ -157,21 +121,6 @@ export const toBoolean = (input: string) => {
 
 export const convertStringToPositiveNumber = (query: string) => {
     return query && !!+query ? Math.abs(+query) : undefined;
-}
-
-function extractDomain(request: HttpRequest) {
-    const header = (request.headers['x-original-uri'] || "https://app.vatbox.com") as string;
-    const regex = /^https?:\/\/(?:[^.]*\.)?([^\/]*\.[^\/]*)\/?.*$/i;
-    const match = header.match(regex);
-
-    if (!match) {
-        throw {
-            status: constants.http.badRequest,
-            message: 'Failed to parse request header'
-        };
-    }
-    const domain = match[1];
-    return domain;
 }
 
 export const areArraysEqual = <T>(first: T[], second: T[]) => {
