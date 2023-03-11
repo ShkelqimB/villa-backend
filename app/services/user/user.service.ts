@@ -20,7 +20,8 @@ export const UserService = {
     },
 
     async updateUser(id: number, values: User): Promise<boolean> {
-        const [updatedUser] = await db.User.update<User>(values, {
+        const hashPass = await hash(values.password, HASH_SALT);
+        const [updatedUser] = await db.User.update<User>({ ...values, password: hashPass }, {
             where: { id }
         });
         if (updatedUser) {

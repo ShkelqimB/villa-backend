@@ -21,7 +21,7 @@ router.post(
 
     if (!loginResult.success) {
       console.log(`${email} failed to logged in!`);
-      return res.status(http.unauthorized);
+      return res.status(http.unauthorized).send('Wrong email or password!');
     }
 
     res.header('Access-Control-Allow-Origin', '*');
@@ -46,9 +46,8 @@ router.post(
     res.header('Access-Control-Allow-Origin', '*');
     res.header("Access-Control-Allow-Headers", "*");
     const accessToken = getAccessTokenFromCookie(req);
-    console.log("🚀 ~ file: authentication.router.ts:48 ~ wrapAsyncError ~ accessToken:", accessToken)
     if (!accessToken) {
-      return res.sendStatus(http.badRequest);
+      return res.status(http.badRequest).send('No Access token founded');
     }
     try {
       clearCookies(req, res);
