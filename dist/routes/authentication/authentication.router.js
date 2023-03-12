@@ -33,7 +33,7 @@ router.post('/login',
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         httpOnly: true, // The browser will not access or modify the cookie
     };
-    res.cookie('jwt', loginResult.token, { httpOnly: false, secure: false });
+    res.cookie('jwt', loginResult.token);
     console.log(`User ${email} logged in successfully!`);
     return res.status(http.ok).send(loginResult.user);
 })));

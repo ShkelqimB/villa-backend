@@ -32,7 +32,7 @@ router.post(
       ), // To mS = D * Hs * min * mS
       httpOnly: true, // The browser will not access or modify the cookie
     };
-    res.cookie('jwt', loginResult.token, { httpOnly: false, secure: false });
+    res.cookie('jwt', loginResult.token);
     console.log(`User ${email} logged in successfully!`);
     return res.status(http.ok).send(loginResult.user);
   })
