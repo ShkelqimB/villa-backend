@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.ts",
     "scripts": {
+        "start": "npm i typescript -g && npm run migrate:no && tsc && node ./dist/index.js",
         "start:dev": "nodemon ./app/index.ts",
         "migrate": "sequelize-cli db:migrate",
         "migrate:no": "sequelize db:migrate && sequelize db:seed:all --debug",
