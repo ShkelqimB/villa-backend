@@ -11,18 +11,20 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy: false,
+}));
 app.use(cors({ origin: true, credentials: true }));
 app.use(cookieParser())
 app.use(express.json());
-
 app.use(errorHandler);
 
 app.use('/', routes);
+app.use('/uploads', express.static("uploads"));
 
 const index = app.listen(port, () => {
     initializeDatabase();
-    console.log(`server started on port:${port} / http://localhost:${port}/api`)
+    console.log(`server started on port:${port} / http://localhost:${port}/`)
 });
 
 module.exports = index;

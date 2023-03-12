@@ -14,7 +14,7 @@ export const RollPaymentService = {
                 as: 'client'
             }, {
                 model: db.Villa,
-                attributes: ['id', 'name', 'price', 'guests'],
+                attributes: ['id', 'name', 'price', 'guests', 'image'],
                 as: 'villa'
             }],
             limit: toNumber,
@@ -30,7 +30,7 @@ export const RollPaymentService = {
                 as: 'client'
             }, {
                 model: db.Villa,
-                attributes: ['id', 'name', 'price', 'guests'],
+                attributes: ['id', 'name', 'price', 'guests', 'image'],
                 as: 'villa'
             }],
         });
@@ -52,7 +52,7 @@ export const RollPaymentService = {
                 as: 'client'
             }, {
                 model: db.Villa,
-                attributes: ['id', 'name', 'price', 'guests'],
+                attributes: ['id', 'name', 'price', 'guests', 'image'],
                 as: 'villa'
             }],
         });

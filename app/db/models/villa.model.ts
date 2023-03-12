@@ -7,6 +7,7 @@ export interface Villa extends Model {
     name: string;
     price: number;
     guests: number;
+    image: string;
 
     createdAt: Date;
     updatedAt: Date;
@@ -20,6 +21,7 @@ export default (sequelize: Sequelize) => {
             name: Type.str(255, false),
             price: Type.int,
             guests: Type.int,
+            image: Type.str(255, true),
         },
         {
             timestamps: true,

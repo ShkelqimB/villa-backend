@@ -2,6 +2,7 @@ import { db } from "../../db";
 import { Villa } from "../../db/models/villa.model";
 import { convertStringToPositiveNumber } from "../../helpers/utils";
 
+
 export const VillaService = {
     async getAllVillas(limit: any): Promise<Villa[]> {
         const toNumber = convertStringToPositiveNumber(limit);
@@ -19,8 +20,8 @@ export const VillaService = {
         return villa;
     },
 
-    async updateVilla(id: number, values: Villa): Promise<boolean> {
-        const [updatedRow] = await db.Villa.update<Villa>(values, {
+    async updateVilla(id: number, values: Villa, image?: string): Promise<boolean> {
+        const [updatedRow] = await db.Villa.update<Villa>({ ...values, image: image }, {
             where: { id },
         });
 
@@ -45,13 +46,15 @@ export const VillaService = {
         return false;
     },
 
-    async createVilla(value: Villa): Promise<Villa | null> {
+    async createVilla(value: Villa, image?: string): Promise<Villa | null> {
         const villa = {
             id: value.id,
             name: value.name,
             price: value.price,
             guests: value.guests,
+            image: image
         };
+        console.log("🚀 ~ file: villa.service.ts:57 ~ createVilla ~ villa:", villa)
         try {
             const createdVilla = (await db.Villa.create<Villa>(villa)).get({ plain: true });
             return createdVilla;
