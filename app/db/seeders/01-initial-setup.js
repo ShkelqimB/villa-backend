@@ -9,8 +9,8 @@ module.exports = {
         ]);
 
         await queryInterface.bulkInsert('users', [
-            { full_name: 'Shkelqim Bilalli', age: 30, phone: "071223123", email: "shkelqimbilalli98@gmail.com", role: 1, password: "kimi123" },
-            { full_name: 'Kimi Bilalli', age: 30, phone: "071223123", email: "kimi@gmail.com", role: 2, password: "kimi123" },
+            { full_name: 'Shkelqim Bilalli', age: 30, phone: "071223123", email: "shkelqimbilalli98@gmail.com", role: 1, password: "$2y$10$uJ1W7eWEjDW4nY/xF3tdlujqRlk2oWs8PsDDQ3q6zraZjXIDdpQT2" },
+            { full_name: 'Kimi Bilalli', age: 30, phone: "071223123", email: "kimi@gmail.com", role: 2, password: "$2y$10$uJ1W7eWEjDW4nY/xF3tdlujqRlk2oWs8PsDDQ3q6zraZjXIDdpQT2" },
         ]);
 
         await queryInterface.bulkInsert('clients', [

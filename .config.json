@@ -1,1 +1,1 @@
-{"username":"root","password":"Sb_12345","database":"villa-project","host":"127.0.0.1","dialect":"mysql","operatorsAliases":"false","port":"3306","seederStorage":"sequelize","seederStorageTableName":"SequelizeData","logging":true}
+{"username":"freedb_villa-user","password":"*U2%jH3hf?mk6jg","database":"freedb_villa-db","host":"sql.freedb.tech","dialect":"mysql","operatorsAliases":"false","port":"3306","seederStorage":"sequelize","seederStorageTableName":"SequelizeData","logging":true}
